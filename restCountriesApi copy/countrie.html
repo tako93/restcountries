@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+
+    <title>>Countries API</title>
+  </head>
+  <body>
+    <center><h1>Rest countries API</h1></center>
+    <br />
+    <hr />
+    <br />
+    <div class="container" id="main-container ">
+      <div class="d-flex justify-content-lg-around">
+        <img style="width: 400px" id="flag-container" src="" alt="" />
+
+        <div class="d-flex justify-content-around">
+          <div id="info-container">
+            <p>Capital: <span id="capital"></span></p>
+            <p>Dialing code: <span id="dialing-code"></span></p>
+            <p>Population: <span id="population"></span></p>
+            <p>Currencies: <span id="currencies"></span></p>
+            <p>Region: <span id="region"></span></p>
+            <p>Subregion: <span id="subregion"></span></p>
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
+      <br />
+      <div class="d-flex justify-content-lg-around">
+        <a class="btn btn-primary" id="back" href="index.html">Go Back</a>
+
+        <a id="out" class="btn btn-warning" href="login.html">Sign out</a>
+      </div>
+    </div>
+    <script src="./js/classes.js"></script>
+    <script src="./js/countrie.js"></script>
+  </body>
+</html>
