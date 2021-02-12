@@ -1,10 +1,10 @@
 window.COUNTRIES_TOKEN_KEY = "token";
-class Storage { //კონსტრუქტორი ფუნქცია არის ფუნქცია რომელიც ინიციალიზაციის მომენტში ქმნის ობიექტს
+class Storage { 
     constructor() {
         this.storage = localStorage;
     }
     store(key, value) {
-        this.storage.setItem(key, JSON.stringify(value)) //ყოველ შენახვაზე სწორ ფორმატში რომ შეინახოს 
+        this.storage.setItem(key, JSON.stringify(value)) 
     }
     read(key) {
         return JSON.parse(this.storage.getItem(key));

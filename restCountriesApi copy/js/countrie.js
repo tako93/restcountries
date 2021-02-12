@@ -6,7 +6,7 @@ let forInfo = document.getElementById('info-container');
 const {
     StorageService,
     fetchCountries
-} = window; //ყოველ ჯერზე  window.-ის დაწერა რომ არ მოგვიწიოს
+} = window; 
 
 const {
     CURRENT_COUNTRY_KEY
@@ -14,7 +14,7 @@ const {
 
 (async () => {
     const countrieCode = StorageService.read(CURRENT_COUNTRY_KEY); //stored is read
-    const countrie = await fetchCountries.fetchData('https://restcountries.eu/rest', `/v2/alpha/${countrieCode}`); // data არის იუზერი. არის data იუზერ ცვლადით
+    const countrie = await fetchCountries.fetchData('https://restcountries.eu/rest', `/v2/alpha/${countrieCode}`); 
 })();
 
  function renderCountriesList (response) {
