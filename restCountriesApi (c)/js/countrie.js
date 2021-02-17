@@ -1,26 +1,27 @@
 
-
 let forInfo = document.getElementById('info-container');
 
 
 const {
     StorageService,
     fetchCountries
-} = window; 
+} = window; //ყოველ ჯერზე  window.-ის დაწერა რომ არ მოგვიწიოს
 
 const {
     CURRENT_COUNTRY_KEY
 } = window;
 
+
 (async () => {
     const countrieCode = StorageService.read(CURRENT_COUNTRY_KEY); //stored is read
-    const countrie = await fetchCountries.fetchData('https://restcountries.eu/rest', `/v2/alpha/${countrieCode}`); 
+    const countrie = await fetchCountries.fetchData('https://restcountries.eu/rest', `/v2/alpha/${countrieCode}`); // data არის იუზერი. არის data იუზერ ცვლადით
 })();
 
  function renderCountriesList (response) {
   countries = response
    if (countries) {
-    console.log(countries);
+       console.log(countries);
+     document.getElementById('name').innerHTML = countries.name;
      document.getElementById('capital').innerHTML = countries.capital;
      document.getElementById('dialing-code').innerHTML = ` ${countries.callingCodes[0]}`;
      document.getElementById('population').innerHTML = countries.population;
@@ -32,3 +33,5 @@ const {
  
   
 }
+
+protectedRoute()

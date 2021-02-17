@@ -1,9 +1,11 @@
 class FetchCountries {
+    
     async fetchData(path, endpoint) {
         try {
-            const response = await fetch(`${path}${endpoint}`) // params - ის რასაც ვახორციელებთ(ამ შემთხვევაში login) და მისამართში იწერება endpoint - ჩვენ ვქმნით   // აქვე ვიძახებთ fetchRequest ფუნქციას და ვაწერთ .then-ებს ისე როგორც fetch-ის წესია 
-            const result = await response.json()
-            const render = renderCountriesList(result)
+            const response = await fetch(`${path}${endpoint}`) 
+            const countries = await response.json()
+            const render = renderCountriesList(countries)
+            // const searchRender = searchRender(countries)
             return render;
 
         } catch (err) {
@@ -11,17 +13,60 @@ class FetchCountries {
             return;
         }
     }
- 
+
 }
 
+class reqRes {
+  baseUrl = "https://reqres.in/api";
 
+
+  constructor() {
+    this.userToken = localStorage.getItem(window.USER_TOKEN_KEY);
+    }
+    
+    async fetchRequest(params, options = {}) {
+        return fetch(`${this.baseUrl}${params.endpoint}`, options);
+    }
+
+
+    async login(email, password, callback) {
+       const params = {
+            endpoint: '/login',
+        };
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email,
+                password
+            }),
+        };
+
+        try {
+            const res = await this.fetchRequest(params, options);
+            const result = await res.json();
+
+        return result;
+
+        } catch (err) {
+            console.error("[reqres.login]", err);
+            return;
+        }
+
+    }
+ 
+    
+}
+window.ApiService = new reqRes();
 
 class CardBuilder {
     constructor(tagName = 'div') { // setup
         this.card = document.createElement(tagName)
-        this.card.className = 'card mt-2 mb-2 col-4 p-2'
-        this.card.style.width = '18rem'
-
+        this.card.className = 'card mx-3 col-auto shadow-lg mb-5 bg-body rounded-3'
+        this.card.style.width = '15rem'
+// mt-2 mb-2
         this.cardBody = null
         this.cardTitle = null
         this.cardImage = null
@@ -41,7 +86,7 @@ class CardBuilder {
 
     addCardBody() {
         this.cardBody = document.createElement('div')
-        this.cardBody.className = 'card-body'
+        this.cardBody.className = 'card-body '
         this.card.appendChild(this.cardBody)
 
         return this
@@ -64,7 +109,6 @@ class CardBuilder {
         }
         this.cardText = document.createElement('p')
         this.cardText.textContent = text
-
         this.cardBody.appendChild(this.cardText)
 
         return this
@@ -85,10 +129,10 @@ class CardBuilder {
         }
 
         for (let key of Object.keys(data)) {
-            // key = countriesName -- userId
+           
             this.cardImage.dataset[key] = data[key]
         }
-        //  console.log(data)
+        
         return this
     }
 
@@ -96,7 +140,6 @@ class CardBuilder {
         return this.card
     }
 }
-
 
 class Storage { // კონსტრუქტორი ფუნქცია არის ფუნქცია რომელიც ინიციალიზაციის მომენტში ქმნის ობიექტს
     constructor() {
@@ -116,19 +159,46 @@ class Storage { // კონსტრუქტორი ფუნქცია �
     }
 } // ლოქალ სთორიჯთან სამუშაოდ
 
-
+window.StorageService = new Storage()
 
 function navigateToProfile () {
   location.replace('countrie.html')
 }
 
+function navigateToLogin () {
+  location.replace('login.html')
+}
+
+function navigateToIndex(token) {
+
+    StorageService.store(window.USER_TOKEN_KEY, token);
+    location.replace('index.html'); // თუ ეს ჩანაწერი მოიძებნება localStorage-ში მაშინვე გადადის dashboard.html-ზე 
+}
+function protectedRoute() {
+  const userToken = StorageService.read(window.USER_TOKEN_KEY);
+
+    if (!userToken) {
+        console.log('out')
+        navigateToLogin () 
+  }
+}
+
+
 window.CURRENT_COUNTRY_KEY = 'current_key';
+const countrieCode = StorageService.read(CURRENT_COUNTRY_KEY);
+
+
+window.USER_TOKEN_KEY = "user_token";
 
 window.fetchCountries = new FetchCountries()
 
 window.card = new CardBuilder()
 
-window.StorageService = new Storage()
 
-const countrieCode = StorageService.read(CURRENT_COUNTRY_KEY);
+
+
+
+
+
+
 
