@@ -1,22 +1,22 @@
 let countriesList = document.getElementById('countries')
-let search = document.getElementById('search')
 let countries = []
-
+let search = document.getElementById('search')
 const singOut = document.getElementById('out')
 window.CURRENT_COUNTRY_KEY = 'current_key'
-const { CURRENT_USER_KEY, USER_TOKEN_KEY } = window;
+const { CURRENT_USER_KEY, USER_TOKEN_KEY } = window
 
 singOut.addEventListener('click', (event) => {
   window.StorageService.clear()
 })
 
+// fetch and show countries
+
 window.fetchCountries.fetchData('https://restcountries.eu/rest', '/v2/all')
 
 function renderCountriesList (countries) {
-
   countries.forEach((countries) => {
     const card = new CardBuilder()
-    
+
     card
       .addCardTitle(`${countries.name}`)
       .addCardText(`calling code:(+${countries.callingCodes})`)
@@ -26,15 +26,39 @@ function renderCountriesList (countries) {
         countriesID: countries.alpha3Code
       })
     countriesList.appendChild(card.render())
-
   })
+}
 
-}; 
+// search
 
+function debounce (func, wait, immediate) {
+  var timeout
+  return function () {
+    var context = this, args = arguments
+    var later = function () {
+      timeout = null
+      if (!immediate) func.apply(context, args)
+    }
+    var callNow = immediate && !timeout
+    clearTimeout(timeout)
+    timeout = setTimeout(later, wait)
+    if (callNow) func.apply(context, args)
+  }
+}
 
+const searchFn = () => {
+  countriesList.innerHTML = null
 
-// const {CURRENT_COUNTRY_KEY} = window
+  window.fetchCountries.fetchData(`https://restcountries.eu/rest/v2/name/${search.value}?fullText=true`)
 
+  renderCountriesList(countries)
+  console.log(search.value)
+}
+var myEfficientFn = debounce(searchFn, 250)
+
+search.addEventListener('keyup', myEfficientFn)
+
+// show one countrie info
 countriesList.addEventListener('click', ({ target }) => {
   if (target.tagName.toLowerCase().match('img')) { // თუ იმიჯს დაეჭირა
     const alpha3Code = target.dataset.countriesID; // გამოჩნდება დაჭერილი იმიჯის დათა
