@@ -11,9 +11,9 @@ singOut.addEventListener('click', (event) => {
 
 // fetch and show countries
 
-window.fetchCountries.fetchData('https://restcountries.eu/rest', '/v2/all')
+window.fetchCountries.fetchData('https://restcountries.eu/rest', '/v2/all') //fetch კლასის პარამეტრების შევსება
 
-function renderCountriesList (countries) {
+function renderCountriesList (countries) { // მონაცენთა რენდერი 
   countries.forEach((countries) => {
     const card = new CardBuilder()
 
